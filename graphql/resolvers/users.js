@@ -7,14 +7,14 @@ const Message = require("../../models/message");
 
 module.exports = {
   Query: {
-    getUsers: async (_, __, context) => {
-      const user = context.user.user;
+    getUsers: async (_, __, { user }) => {
+      // const user = context.user.user;
       try {
         if (!user) throw new AuthenticationError("Unauthenticated");
 
         const pipelineoforuser = [
           {
-            $match: { email: { $ne: user.email } },
+            $match: { email: { $ne: user.user.email } },
           },
           {
             $project: {
@@ -32,7 +32,7 @@ module.exports = {
           let userwithmsg = [];
           for (let i = 0; i < users.length; i++) {
             let singleuser = users[i];
-            const currentuser = [user.email, singleuser.email];
+            const currentuser = [user.user.email, singleuser.email];
             var pipeline = [
               {
                 $match: {

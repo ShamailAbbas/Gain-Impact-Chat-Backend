@@ -1,9 +1,5 @@
-const {
-  UserInputError,
-  AuthenticationError,
-
-  withFilter,
-} = require("apollo-server");
+const { UserInputError, AuthenticationError } = require("apollo-server");
+const { withFilter } = require("graphql-subscriptions");
 
 const Message = require("../../models/message");
 const User = require("../../models/user");
@@ -42,9 +38,9 @@ module.exports = {
     },
   },
   Mutation: {
-    sendMessage: async (parent, { to, content }, context) => {
-      const user = context.user;
-      const pubsub = context.pubsub;
+    sendMessage: async (parent, { to, content }, { user, pubsub }) => {
+      // const user = user.user;
+      // const pubsub = context.pubsub;
 
       try {
         if (!user) throw new AuthenticationError("Unauthenticated");

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { PubSub } = require("apollo-server");
+const { PubSub } = require("graphql-subscriptions");
 
 const pubsub = new PubSub();
 
@@ -16,7 +16,7 @@ module.exports = (context) => {
       context.user = decodedToken;
     });
   }
-
+  console.log(context);
   context.pubsub = pubsub;
 
   return context;
